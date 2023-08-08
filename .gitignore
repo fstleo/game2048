@@ -1,6 +1,4 @@
+bin
+obj
+Game2048.sln.DotSettings.user
 .idea/
-bin/
-obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/

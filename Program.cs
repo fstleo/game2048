@@ -1,51 +1,23 @@
-﻿using Game2048;
+﻿using Game2048.Common;
+using Game2048.Gameplay;
+using Game2048.Gameplay.ConsoleInput;
+using Game2048.Gameplay.Field;
+using Game2048.Gameplay.Field.View;
+using Game2048.Gameplay.Scores;
+using Game2048.Gameplay.View;
+
+var grid = new Grid(4, 2048);
+var scores = new ScoreKeeper(new FileStorage("max_scores"));
+var gameStateHandler = new GameStateHandler();
+var game = new Game(gameStateHandler, grid, scores);
+var input = new ConsoleInputReader();
+
+var gameView = new CompositeView(new ScoreView(scores), new GridView(grid), new GameStateView(gameStateHandler, game, input));
+
+game.StartNew();
 
 while (true)
 {
-    var game = new Game(4);
-
-    while (true)
-    {
-        game.Print();
-        var button = Console.ReadKey();
-        if (button.Key == ConsoleKey.UpArrow)
-        {
-            game.Up();
-        }
-        if (button.Key == ConsoleKey.DownArrow)
-        {
-            game.Down();
-        }
-        if (button.Key == ConsoleKey.LeftArrow)
-        {
-            game.Left();
-        }
-        if (button.Key == ConsoleKey.RightArrow)
-        {
-            game.Right();
-        }
-        if (button.Key == ConsoleKey.Q)
-        {
-            break;
-        }
-        if (!game.PlaceRandomly())
-        {
-            Console.Clear();
-            Console.WriteLine("Game over. Restart? y/n");
-            var response = Console.ReadKey();
-            if (response.Key == ConsoleKey.Y)
-            {
-                Console.Clear();
-                break;
-            }
-            if (response.Key == ConsoleKey.N)
-            {
-                Console.Clear();
-                return;
-            }
-
-        }
-        Console.Clear();
-    }
+    gameView.Show();
 }
     
